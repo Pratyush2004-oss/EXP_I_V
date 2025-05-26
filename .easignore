@@ -1,0 +1,26 @@
+# Ignore everything except what's needed for the mobile app
+
+# Ignore parent folders
+
+../\*
+
+# Ignore backend and frontend folders if they are inside mobile (just in case)
+
+backend/
+frontend/
+
+# Ignore build artifacts
+
+_.log
+_.env
+_.env._
+\*.pem
+.DS_Store
+.next/
+out/
+coverage/
+build/
+node_modules/
+.expo/
+.vscode/
+.idea/
