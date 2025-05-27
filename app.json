@@ -12,14 +12,18 @@
       "resizeMode": "contain"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "exploreIndiaView",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/logo.png",
         "backgroundColor": "#ffffff"
       },
-       "jsEngine": "hermes",
+      "jsEngine": "hermes",
       "package": "com.exploreindiaview.Explore_India_View"
     },
     "web": {
