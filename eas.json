@@ -8,6 +8,11 @@
       "developmentClient": true,
       "distribution": "internal"
     },
+    "android": {
+      "gradleCommand": ":app:bundleRelease",
+      "buildType": "app-bundle",
+      "enableProguardInReleaseBuilds": true
+    },
     "preview": {
       "distribution": "internal"
     },
@@ -16,6 +21,11 @@
     }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "android": {
+        "buildType": "app-bundle",
+        "enableProguardInReleaseBuilds": true
+      }
+    }
   }
 }
