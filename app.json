@@ -15,7 +15,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/logo.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.exploreindiaview.Explore_India_View"
     },
     "web": {
       "bundler": "metro",
@@ -38,7 +39,10 @@
       "typedRoutes": true
     },
     "extra": {
-      "router": {}
+      "router": {},
+      "eas": {
+        "projectId": "6c723e95-f27f-47c6-b9a7-2b10e3213c64"
+      }
     }
   }
 }

@@ -1,23 +1,24 @@
-import { API_URL } from "@/assets/services/API"; // Adjust path as needed
-import { useAuthStore } from "@/assets/store/auth.store"; // Adjust path as needed
+import { API_URL } from "@/assets/services/API";
+import { useAuthStore } from "@/assets/store/auth.store";
+import BackHeader from "@/components/BackHeader";
+import { Colors } from "@/constants/Colors";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {
   Dimensions,
-  FlatList,
   Image,
   StyleSheet,
   Text,
   View,
 } from "react-native";
-import { SceneMap, TabBar, TabView } from "react-native-tab-view";
-import BookingTable from "./_components/BookingTable"; // Use the BookingTable provided earlier
-import Details from "./_components/Details"; // Use the Details component provided earlier
-import QueriesTable from "./_components/QueriesTable"; // Use the QueriesTable provided earlier
-import { Colors } from "@/constants/Colors";
-import BackHeader from "@/components/BackHeader";
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import BookingTable from "./_components/BookingTable";
+import Details from "./_components/Details";
+import QueriesTable from "./_components/QueriesTable";
 
 const { width } = Dimensions.get("window");
+
+const Tab = createMaterialTopTabNavigator();
 
 export default function AdminScreen() {
   const { isAdmin, token } = useAuthStore();
@@ -26,11 +27,6 @@ export default function AdminScreen() {
   const [queriesPageNumber, setqueriesPageNumber] = useState(1);
   const [loading, setloading] = useState(false);
   const [bookings, setbookings] = useState([]);
-  const [index, setIndex] = useState(0);
-  const [routes] = useState([
-    { key: "bookings", title: "Bookings" },
-    { key: "queries", title: "Queries" },
-  ]);
 
   // Fetch Queries
   const fetchQueries = async () => {
@@ -93,49 +89,45 @@ export default function AdminScreen() {
     );
   }
 
-  const renderScene = SceneMap({
-    bookings: () => (
-      <BookingTable
-        loading={loading}
-        bookings={bookings}
-        pageNumber={pageNumber}
-        setpageNumber={setpageNumber}
-      />
-    ),
-    queries: () => (
-      <QueriesTable
-        loading={loading}
-        Queries={Queries}
-        pageNumber={queriesPageNumber}
-        setPageNumber={setqueriesPageNumber}
-      />
-    ),
-  });
-
   return (
     <>
       <BackHeader />
       <View style={styles.container}>
-        {/* Details section only takes its own height */}
+        {/* Details section */}
         <View style={styles.detailsWrapper}>
           <Details token={token || ""} />
         </View>
-        {/* TabView fills the rest */}
+        
+        {/* Tab Navigator */}
         <View style={styles.tabViewWrapper}>
-          <TabView
-            navigationState={{ index, routes }}
-            renderScene={renderScene}
-            onIndexChange={setIndex}
-            initialLayout={{ width }}
-            renderTabBar={(props) => (
-              <TabBar
-                {...props}
-                indicatorStyle={{ backgroundColor: "#10b981" }}
-                style={styles.tabBar}
-              />
-            )}
-            style={styles.tabView}
-          />
+          <Tab.Navigator
+            screenOptions={{
+              tabBarIndicatorStyle: { backgroundColor: "#10b981" },
+              tabBarStyle: styles.tabBar,
+              tabBarLabelStyle: styles.tabLabel,
+            }}
+          >
+            <Tab.Screen name="Bookings">
+              {() => (
+                <BookingTable
+                  loading={loading}
+                  bookings={bookings}
+                  pageNumber={pageNumber}
+                  setpageNumber={setpageNumber}
+                />
+              )}
+            </Tab.Screen>
+            <Tab.Screen name="Queries">
+              {() => (
+                <QueriesTable
+                  loading={loading}
+                  Queries={Queries}
+                  pageNumber={queriesPageNumber}
+                  setPageNumber={setqueriesPageNumber}
+                />
+              )}
+            </Tab.Screen>
+          </Tab.Navigator>
         </View>
       </View>
     </>
@@ -149,13 +141,12 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.WHITE,
   },
   detailsWrapper: {
-    // No flex, just takes its own height
     paddingHorizontal: 8,
     marginBottom: 8,
   },
   tabViewWrapper: {
-    flex: 1, // Fills the rest of the space
-    minHeight: 0, // Ensures proper flex behavior
+    flex: 1,
+    minHeight: 0,
   },
   tabBar: {
     backgroundColor: Colors.GRAY,
@@ -167,10 +158,6 @@ const styles = StyleSheet.create({
     color: "#000",
     fontWeight: "bold",
     fontSize: 16,
-  },
-  tabView: {
-    flex: 1,
-    marginTop: 0,
   },
   unauthContainer: {
     flex: 1,

@@ -164,7 +164,7 @@ export default function PackageDetailScreen() {
             )}
 
             {/* Map */}
-            <RajasthanMap />
+            {/* <RajasthanMap /> */}
           </View>
 
           {/* Booking Card */}

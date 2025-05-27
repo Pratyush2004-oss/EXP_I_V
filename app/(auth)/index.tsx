@@ -22,12 +22,9 @@ export default function LoginScreen() {
     // handle navigation based on auth state
     useEffect(() => {
       const isAuthScreen = segments[0] === "(auth)";
-      const isTabScreen = segments[0] === "(tabs)";
       const isSignedIn = user && token;
   
       if (isSignedIn && isAuthScreen) router.replace("/(tabs)");
-      if(!isSignedIn && isTabScreen) router.replace("/(auth)");
-      if(isSignedIn) router.replace("/(tabs)");
     }, [user, segments, token]);
   const [input, setInput] = useState({
     isoCode: "+91",
